@@ -66,8 +66,16 @@ const Section = ({ id, title, kicker, children }) => (
 );
 const Badge = ({ children }) => (<span className="inline-flex items-center rounded-full border px-4 py-2 text-sm md:text-base font-medium mr-2 mb-2">{children}</span>);
 const Card = ({ children, className = "" }) => (<div className={`rounded-2xl border shadow-sm hover:shadow-md transition ${className}`}>{children}</div>);
-const Button = ({ href, children, variant = "primary", ...props }) => (<a href={href} className={variant==="primary"?"inline-flex items-center justify-center rounded-xl px-5 py-3 font-semibold border bg-black text-white hover:opacity-90":"inline-flex items-center justify-center rounded-xl px-5 py-3 font-semibold border hover:bg-gray-50"} {...props}>{children}</a>);
-const NavLink = ({ href, children }) => (<a href={href} className="px-3 py-2 text-sm font-medium hover:text-black/80">{children}</a>);
+const Button = ({ href, children, variant = "primary", ...props }) => {
+  const base = "inline-flex items-center justify-center rounded-xl px-5 py-3 font-semibold border transition";
+  const variants = {
+    primary: "bg-black text-white border-black hover:opacity-90",
+    secondary: "hover:bg-gray-50",
+    light: "text-white border-white/40 hover:bg-white/10"
+  };
+  return (<a href={href} className={`${base} ${variants[variant] || variants.primary}`} {...props}>{children}</a>);
+};
+const NavLink = ({ href, children }) => (<a href={href} className="px-3 py-2 text-sm font-medium text-white/80 hover:text-yellow-400">{children}</a>);
 const Selo = ({ text }) => (
   <span className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold bg-white shadow-sm">
     <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-green-600" aria-hidden>
@@ -102,13 +110,13 @@ export default function SiteJR() {
 
   return (
     <div className="min-h-screen text-gray-800">
-      <header className="sticky top-0 z-40 backdrop-blur bg-white/70 border-b">
+      <header className="sticky top-0 z-40 backdrop-blur bg-gray-900/95 border-b border-white/10 text-white">
         <div className="max-w-6xl mx-auto px-6 h-20 md:h-24 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <img src="/assets/logo.png" alt="JR Montagens Industriais" className="h-16 md:h-20 w-auto object-contain" />
-            <div className="leading-tight">
+            <div className="bg-white rounded-xl p-1"><img src="/assets/logo.png" alt="JR Montagens Industriais" className="h-16 md:h-20 w-auto object-contain" /></div>
+            <div className="leading-tight text-white">
               <div className="font-bold">{COMPANY.tradeName}</div>
-              <div className="text-xs text-gray-500">Desde Paranaguá/PR para todo o Brasil</div>
+              <div className="text-xs text-white/60">Desde Paranaguá/PR para todo o Brasil</div>
             </div>
           </div>
           <nav className="hidden md:flex items-center">
@@ -118,7 +126,7 @@ export default function SiteJR() {
             <NavLink href="#clientes">Clientes</NavLink>
             <NavLink href="#contato">Contato</NavLink>
             <div className="ml-4">
-              <Button href={COMPANY.ctaPrimary.href}>Solicitar orçamento</Button>
+              <Button href={COMPANY.ctaPrimary.href} variant="light">Solicitar orçamento</Button>
             </div>
           </nav>
           <button className="md:hidden p-2" onClick={() => setMenuOpen(!menuOpen)} aria-label="Abrir menu">
@@ -126,13 +134,13 @@ export default function SiteJR() {
           </button>
         </div>
         {menuOpen && (
-          <div className="md:hidden border-t bg-white">
+          <div className="md:hidden border-t border-white/10 bg-gray-900 text-white">
             <div className="px-6 py-3 flex flex-col">
-              <a href="#servicos" className="py-2" onClick={() => setMenuOpen(false)}>Serviços</a>
-              <a href="#setores" className="py-2" onClick={() => setMenuOpen(false)}>Setores</a>
-              <a href="#projetos" className="py-2" onClick={() => setMenuOpen(false)}>Projetos</a>
-              <a href="#clientes" className="py-2" onClick={() => setMenuOpen(false)}>Clientes</a>
-              <a href="#contato" className="py-2" onClick={() => setMenuOpen(false)}>Contato</a>
+              <a href="#servicos" className="py-2 text-white hover:text-yellow-400" onClick={() => setMenuOpen(false)}>Serviços</a>
+              <a href="#setores" className="py-2 text-white hover:text-yellow-400" onClick={() => setMenuOpen(false)}>Setores</a>
+              <a href="#projetos" className="py-2 text-white hover:text-yellow-400" onClick={() => setMenuOpen(false)}>Projetos</a>
+              <a href="#clientes" className="py-2 text-white hover:text-yellow-400" onClick={() => setMenuOpen(false)}>Clientes</a>
+              <a href="#contato" className="py-2 text-white hover:text-yellow-400" onClick={() => setMenuOpen(false)}>Contato</a>
             </div>
           </div>
         )}
