@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+
 const COMPANY = {
   tradeName: "JR Montagens Industriais",
   tagline: "Soluções completas em manutenção, fabricação e montagem industrial — tubulações, estruturas e combate a incêndio.",
@@ -39,6 +40,7 @@ const COMPANY = {
     ]
   }
 };
+
 const Icon = ({ name, className = "w-6 h-6" }) => {
   const paths = {
     Factory: (<path d="M3 20h18v-2H3v2Zm0-4h5v-5l5 3V9l5 3V4h-2v4.5L13 6v4.5L8 7v9H3v0Z" />),
@@ -52,11 +54,20 @@ const Icon = ({ name, className = "w-6 h-6" }) => {
   };
   return <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>{paths[name]}</svg>;
 };
+
 const Section = ({ id, title, kicker, children }) => (
-  <section id={id} className="py-16 md:py-24"><div className="max-w-6xl mx-auto px-6">{kicker && (<p className="text-sm uppercase tracking-widest text-gray-500 mb-2">{kicker}</p>)}<h2 className="text-3xl md:text-4xl font-bold mb-6">{title}</h2>{children}</div></section>
+  <section id={id} className="py-16 md:py-24">
+    <div className="max-w-6xl mx-auto px-6">
+      {kicker && (<p className="text-sm uppercase tracking-widest text-gray-500 mb-2">{kicker}</p>)}
+      <h2 className="text-3xl md:text-4xl font-bold mb-6">{title}</h2>
+      {children}
+    </div>
+  </section>
 );
 const Badge = ({ children }) => (<span className="inline-flex items-center rounded-full border px-4 py-2 text-sm md:text-base font-medium mr-2 mb-2">{children}</span>);
-
+const Card = ({ children, className = "" }) => (<div className={`rounded-2xl border shadow-sm hover:shadow-md transition ${className}`}>{children}</div>);
+const Button = ({ href, children, variant = "primary", ...props }) => (<a href={href} className={variant==="primary"?"inline-flex items-center justify-center rounded-xl px-5 py-3 font-semibold border bg-black text-white hover:opacity-90":"inline-flex items-center justify-center rounded-xl px-5 py-3 font-semibold border hover:bg-gray-50"} {...props}>{children}</a>);
+const NavLink = ({ href, children }) => (<a href={href} className="px-3 py-2 text-sm font-medium hover:text-black/80">{children}</a>);
 const Selo = ({ text }) => (
   <span className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold bg-white shadow-sm">
     <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-green-600" aria-hidden>
@@ -65,14 +76,12 @@ const Selo = ({ text }) => (
     {text}
   </span>
 );
-const Card = ({ children, className = "" }) => (<div className={`rounded-2xl border shadow-sm hover:shadow-md transition ${className}`}>{children}</div>);
-const Button = ({ href, children, variant = "primary", ...props }) => (<a href={href} className={variant==="primary"?"inline-flex items-center justify-center rounded-xl px-5 py-3 font-semibold border bg-black text-white hover:opacity-90":"inline-flex items-center justify-center rounded-xl px-5 py-3 font-semibold border hover:bg-gray-50"} {...props}>{children}</a>);
-const NavLink = ({ href, children }) => (<a href={href} className="px-3 py-2 text-sm font-medium hover:text-black/80">{children}</a>);
 
 export default function SiteJR() {
   const [menuOpen, setMenuOpen] = useState(false);
   const year = useMemo(() => new Date().getFullYear(), []);
   const [lightboxIndex, setLightboxIndex] = useState(null);
+
   useEffect(() => {
     const onKey = (e) => {
       if (lightboxIndex === null) return;
@@ -83,148 +92,226 @@ export default function SiteJR() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [lightboxIndex]);
+
   const openLightbox = (idx) => setLightboxIndex(idx);
   const closeLightbox = () => setLightboxIndex(null);
   const prev = () => setLightboxIndex((i) => (i - 1 + COMPANY.projects.length) % COMPANY.projects.length);
   const next = () => setLightboxIndex((i) => (i + 1) % COMPANY.projects.length);
+
   const current = lightboxIndex !== null ? COMPANY.projects[lightboxIndex] : null;
 
-  const handleMail = (e) => {
-    e.preventDefault();
-    const form = e.currentTarget.closest('form') || e.currentTarget;
-    const subject = form?.subject?.value || "Contato via site — JR Montagens";
-    const body = form?.body?.value || "";
-    const href = `mailto:${COMPANY.contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.location.href = href;
-  };
-
-
-  return (<div className="min-h-screen text-gray-800">
-    <header className="sticky top-0 z-40 backdrop-blur bg-white/70 border-b">
-      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <img src="/assets/logo.png" alt="JR Montagens Industriais" className="h-9 w-auto object-contain" />
-          <div className="leading-tight">
-            <div className="font-bold">{COMPANY.tradeName}</div>
-            <div className="text-xs text-gray-500">Desde Paranaguá/PR para todo o Brasil</div>
-          </div>
-        </div>
-        <nav className="hidden md:flex items-center">
-          <NavLink href="#servicos">Serviços</NavLink><NavLink href="#setores">Setores</NavLink><NavLink href="#projetos">Projetos</NavLink><NavLink href="#clientes">Clientes</NavLink><NavLink href="#contato">Contato</NavLink>
-          <div className="ml-4"><Button href={COMPANY.ctaPrimary.href}>Solicitar orçamento</Button></div>
-        </nav>
-        <button className="md:hidden p-2" onClick={() => setMenuOpen(!menuOpen)} aria-label="Abrir menu"><Icon name="Menu" /></button>
-      </div>
-      {menuOpen && (<div className="md:hidden border-t bg-white"><div className="px-6 py-3 flex flex-col">
-        <a href="#servicos" className="py-2" onClick={() => setMenuOpen(false)}>Serviços</a>
-        <a href="#setores" className="py-2" onClick={() => setMenuOpen(false)}>Setores</a>
-        <a href="#projetos" className="py-2" onClick={() => setMenuOpen(false)}>Projetos</a>
-        <a href="#clientes" className="py-2" onClick={() => setMenuOpen(false)}>Clientes</a>
-        <a href="#contato" className="py-2" onClick={() => setMenuOpen(false)}>Contato</a>
-      </div></div>)}
-    </header>
-
-    <section className="relative overflow-hidden"><div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-100" />
-      <div className="max-w-6xl mx-auto px-6 pt-16 pb-16 md:pt-24 md:pb-24 relative">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">{COMPANY.tagline}</h1>
-            <p className="mt-4 text-lg text-gray-600">{COMPANY.about}</p>
-            <div className="mt-6 flex gap-3">
-              <Button href={COMPANY.ctaPrimary.href} variant="primary">{COMPANY.ctaPrimary.label}</Button>
-              <Button href={COMPANY.ctaSecondary.href} variant="secondary">{COMPANY.ctaSecondary.label}</Button>
+  return (
+    <div className="min-h-screen text-gray-800">
+      <header className="sticky top-0 z-40 backdrop-blur bg-white/70 border-b">
+        <div className="max-w-6xl mx-auto px-6 h-20 md:h-24 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <img src="/assets/logo.png" alt="JR Montagens Industriais" className="h-16 md:h-20 w-auto object-contain" />
+            <div className="leading-tight">
+              <div className="font-bold">{COMPANY.tradeName}</div>
+              <div className="text-xs text-gray-500">Desde Paranaguá/PR para todo o Brasil</div>
             </div>
           </div>
-          <div className="md:pl-10">
-            <div className="aspect-[4/3] rounded-2xl border bg-white shadow-sm overflow-hidden flex items-center justify-center">
-              <img src="/assets/hero/hero-fabricacao-montagem.jpg" alt="JR Montagens — fabricação e montagem" className="w-full h-full object-cover" />
+          <nav className="hidden md:flex items-center">
+            <NavLink href="#servicos">Serviços</NavLink>
+            <NavLink href="#setores">Setores</NavLink>
+            <NavLink href="#projetos">Projetos</NavLink>
+            <NavLink href="#clientes">Clientes</NavLink>
+            <NavLink href="#contato">Contato</NavLink>
+            <div className="ml-4">
+              <Button href={COMPANY.ctaPrimary.href}>Solicitar orçamento</Button>
             </div>
-            <p className="text-xs text-gray-500 mt-2">Substitua pela sua melhor foto de obra / equipe.</p>
+          </nav>
+          <button className="md:hidden p-2" onClick={() => setMenuOpen(!menuOpen)} aria-label="Abrir menu">
+            <Icon name="Menu" />
+          </button>
+        </div>
+        {menuOpen && (
+          <div className="md:hidden border-t bg-white">
+            <div className="px-6 py-3 flex flex-col">
+              <a href="#servicos" className="py-2" onClick={() => setMenuOpen(false)}>Serviços</a>
+              <a href="#setores" className="py-2" onClick={() => setMenuOpen(false)}>Setores</a>
+              <a href="#projetos" className="py-2" onClick={() => setMenuOpen(false)}>Projetos</a>
+              <a href="#clientes" className="py-2" onClick={() => setMenuOpen(false)}>Clientes</a>
+              <a href="#contato" className="py-2" onClick={() => setMenuOpen(false)}>Contato</a>
+            </div>
+          </div>
+        )}
+      </header>
+
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-100" />
+        <div className="max-w-6xl mx-auto px-6 pt-16 pb-16 md:pt-24 md:pb-24 relative">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">{COMPANY.tagline}</h1>
+              <p className="mt-4 text-lg text-gray-600">{COMPANY.about}</p>
+              <div className="mt-6 flex gap-3">
+                <Button href={COMPANY.ctaPrimary.href} variant="primary">{COMPANY.ctaPrimary.label}</Button>
+                <Button href={COMPANY.ctaSecondary.href} variant="secondary">{COMPANY.ctaSecondary.label}</Button>
+              </div>
+              <div className="mt-6"><Selo text="Atuação em todo o Brasil" /></div>
+            </div>
+            <div className="md:pl-10">
+              <div className="aspect-[4/3] rounded-2xl border bg-white shadow-sm overflow-hidden flex items-center justify-center">
+                <img src="/assets/hero/hero-fabricacao-montagem.jpg" alt="JR Montagens — fabricação e montagem" className="w-full h-full object-cover" />
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <Section id="servicos" title="Serviços" kicker="O que fazemos">
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {COMPANY.services.map((s)=>(<Card key={s.title} className="p-6">
-          <div className="flex items-center gap-3 mb-3"><Icon name={s.icon} className="w-6 h-6" /><h3 className="font-semibold">{s.title}</h3></div>
-          <p className="text-sm text-gray-600 mb-4">{s.desc}</p>
-          <ul className="text-sm list-disc pl-5 space-y-1">{s.bullets.map((b)=>(<li key={b}>{b}</li>))}</ul>
-        </Card>))}
-      </div>
-    </Section>
+      <Section id="servicos" title="Serviços" kicker="O que fazemos">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {COMPANY.services.map((s) => (
+            <Card key={s.title} className="p-6">
+              <div className="flex items-center gap-3 mb-3">
+                <Icon name={s.icon} className="w-6 h-6" />
+                <h3 className="font-semibold">{s.title}</h3>
+              </div>
+              <p className="text-sm text-gray-600 mb-4">{s.desc}</p>
+              <ul className="text-sm list-disc pl-5 space-y-1">
+                {s.bullets.map((b) => (<li key={b}>{b}</li>))}
+              </ul>
+            </Card>
+          ))}
+        </div>
+      </Section>
 
-    <Section id="setores" title="Setores atendidos" kicker="Experiência multi-indústria">
-      <div className="flex flex-wrap">{COMPANY.sectors.map((s)=>(<Badge key={s}>{s}</Badge>))}</div>
-    </Section>
+      <Section id="setores" title="Setores atendidos" kicker="Experiência multi-indústria">
+        <div className="flex flex-wrap">
+          {COMPANY.sectors.map((s) => (<Badge key={s}>{s}</Badge>))}
+        </div>
+      </Section>
 
-    <Section id="projetos" title="Projetos em destaque" kicker="Portfólio real">
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {COMPANY.projects.map((p, idx)=>(<Card key={p.title} className="overflow-hidden">
-          <div className="aspect-video bg-gray-100 cursor-pointer" onClick={()=>setLightboxIndex(idx)}>
-            <img src={p.cover} alt={`${p.title} — ${p.city}`} className="w-full h-full object-cover" />
-          </div>
-          <div className="p-4"><h3 className="font-semibold leading-snug">{p.title}</h3><p className="text-sm text-gray-600">{p.client} • {p.city}</p></div>
-        </Card>))}
-      </div>
-      <p className="text-sm text-gray-500 mt-4">Dica: renomeie seus arquivos em <code>/public/assets/projetos/</code> com os nomes acima e substitua as imagens reais.</p>
-    </Section>
+      <Section id="projetos" title="Projetos em destaque" kicker="Portfólio real">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {COMPANY.projects.map((p, idx) => (
+            <Card key={p.title} className="overflow-hidden">
+              <div className="aspect-video bg-gray-100 cursor-pointer" onClick={() => openLightbox(idx)}>
+                <img src={p.cover} alt={`${p.title} — ${p.city}`} className="w-full h-full object-cover" />
+              </div>
+              <div className="p-4">
+                <h3 className="font-semibold leading-snug">{p.title}</h3>
+                <p className="text-sm text-gray-600">{p.client} • {p.city}</p>
+              </div>
+            </Card>
+          ))}
+        </div>
+        <p className="text-sm text-gray-500 mt-4">Dica: renomeie seus arquivos em <code>/public/assets/projetos/</code> com os nomes acima e substitua as imagens reais.</p>
+      </Section>
 
-    <Section id="clientes" title="Clientes" kicker="Confiança construída em campo">
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-        {COMPANY.clients.map((c)=>(
-          <Card key={c.name} className="p-6 h-28 md:h-32 flex items-center justify-center text-center">
-            <div className="w-full h-full flex items-center justify-center">
-              <img src={c.logo} alt={c.name} className="max-h-full w-auto object-contain" onError={(e)=>{e.currentTarget.style.display='none'; e.currentTarget.nextSibling.style.display='block';}} />
-              <span className="hidden text-sm font-semibold">{c.name}</span>
+      <Section id="clientes" title="Clientes" kicker="Confiança construída em campo">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+          {COMPANY.clients.map((c) => (
+            <Card key={c.name} className="p-6 h-28 md:h-32 flex items-center justify-center text-center">
+              <div className="w-full h-full flex items-center justify-center">
+                <img
+                  src={c.logo}
+                  alt={c.name}
+                  className="max-h-full w-auto object-contain"
+                  onError={(e)=>{ e.currentTarget.style.display='none'; e.currentTarget.nextSibling.style.display='block'; }}
+                />
+                <span className="hidden text-sm font-semibold">{c.name}</span>
+              </div>
+            </Card>
+          ))}
+        </div>
+        <p className="text-sm text-gray-500 mt-4">
+          Dica: substitua os arquivos em <code>/public/assets/clientes/</code> pelos logos reais (PNG/SVG com fundo transparente).
+        </p>
+      </Section>
+
+      <Section id="contato" title="Contato" kicker="Fale com a JR">
+        <div className="grid md:grid-cols-2 gap-8">
+          <Card className="p-6">
+            <div className="flex items-start gap-3 mb-3"><Icon name="MapPin" /><div>
+              <h3 className="font-semibold">Endereço</h3>
+              <p className="text-sm text-gray-600">{COMPANY.contact.addressLine1}</p>
+              <p className="text-sm text-gray-600">{COMPANY.contact.addressLine2}</p>
+            </div></div>
+            <div className="flex items-start gap-3 mb-3"><Icon name="Phone" /><div>
+              <h3 className="font-semibold">Telefones</h3>
+              <ul className="text-sm text-gray-600">
+                {COMPANY.contact.phones.map((p) => (<li key={p}>{p}</li>))}
+              </ul>
+            </div></div>
+            <div className="flex items-start gap-3"><Icon name="Mail" /><div>
+              <h3 className="font-semibold">E-mail</h3>
+              <a className="text-sm text-blue-600 underline" href={`mailto:${COMPANY.contact.email}`}>{COMPANY.contact.email}</a>
+            </div></div>
+            <div className="mt-6">
+              <h4 className="font-semibold mb-2">Diretoria</h4>
+              <ul className="text-sm text-gray-600">
+                {COMPANY.contact.directors.map((d) => (<li key={d.name} className="mb-1">{d.name} — {d.phone}</li>))}
+              </ul>
             </div>
           </Card>
-        ))}
-      </div>
-      <p className="text-sm text-gray-500 mt-4">Dica: use PNG/SVG com fundo transparente. Ajuste a altura do cartão (ex.: <code>h-32</code>) se quiser logos ainda maiores.</p>
-    </Section>
 
-    <Section id="contato" title="Contato" kicker="Fale com a JR">
-      <div className="grid md:grid-cols-2 gap-8">
-        <Card className="p-6">
-          <div className="flex items-start gap-3 mb-3"><Icon name="MapPin" /><div><h3 className="font-semibold">Endereço</h3><p className="text-sm text-gray-600">{COMPANY.contact.addressLine1}</p><p className="text-sm text-gray-600">{COMPANY.contact.addressLine2}</p></div></div>
-          <div className="flex items-start gap-3 mb-3"><Icon name="Phone" /><div><h3 className="font-semibold">Telefones</h3><ul className="text-sm text-gray-600">{COMPANY.contact.phones.map((p)=>(<li key={p}>{p}</li>))}</ul></div></div>
-          <div className="flex items-start gap-3"><Icon name="Mail" /><div><h3 className="font-semibold">E-mail</h3><a className="text-sm text-blue-600 underline" href={`mailto:${COMPANY.contact.email}`}>{COMPANY.contact.email}</a></div></div>
-          <div className="mt-6"><h4 className="font-semibold mb-2">Diretoria</h4><ul className="text-sm text-gray-600">{COMPANY.contact.directors.map((d)=>(<li key={d.name} className="mb-1">{d.name} — {d.phone}</li>))}</ul></div>
-        </Card>
-        <Card className="p-6">
-          <h3 className="font-semibold mb-2">Envie sua mensagem</h3><p className="text-sm text-gray-600 mb-4">O formulário abaixo abre seu e-mail com o assunto preenchido.</p>
-          <form onSubmit={handleMail} className="space-y-3">
-            <div><label className="text-sm">Assunto</label><input name="subject" className="mt-1 w-full rounded-xl border px-3 py-2" defaultValue="Contato via site — JR Montagens" /></div>
-            <div><label className="text-sm">Mensagem</label><textarea name="body" rows={5} className="mt-1 w-full rounded-xl border px-3 py-2" placeholder="Descreva sua necessidade (escopo, prazos, local, etc.)" /></div>
-            <div className="flex gap-3"><Button href="#" onClick={handleMail} variant="primary">Enviar mensagem</Button><Button href="/assets/docs/apresentacao-jr.pdf" target="_blank" download>Baixar apresentação</Button></div>
-          </form>
-        </Card>
-      </div>
-    </Section>
-
-    <footer className="border-t bg-white">
-      <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-        <div className="flex items-center gap-3">
-          <img src="/assets/logo.png" alt="JR Montagens Industriais" className="h-9 w-auto object-contain" />
-          <div><div className="font-semibold">{COMPANY.tradeName}</div><div className="text-xs text-gray-500">{COMPANY.contact.addressLine1} • {COMPANY.contact.addressLine2}</div></div>
+          <Card className="p-6">
+            <h3 className="font-semibold mb-2">Envie sua mensagem</h3>
+            <p className="text-sm text-gray-600 mb-4">O formulário abaixo abre seu e-mail com o assunto preenchido.</p>
+            <form onSubmit={(e)=>{
+              e.preventDefault();
+              const form = e.currentTarget;
+              const subject = form?.subject?.value || "Contato via site — JR Montagens";
+              const body = form?.body?.value || "";
+              const href = `mailto:${COMPANY.contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+              window.location.href = href;
+            }} className="space-y-3">
+              <div>
+                <label className="text-sm">Assunto</label>
+                <input name="subject" className="mt-1 w-full rounded-xl border px-3 py-2" defaultValue="Contato via site — JR Montagens" />
+              </div>
+              <div>
+                <label className="text-sm">Mensagem</label>
+                <textarea name="body" rows={5} className="mt-1 w-full rounded-xl border px-3 py-2" placeholder="Descreva sua necessidade (escopo, prazos, local, etc.)" />
+              </div>
+              <div className="flex gap-3">
+                <Button href="#" onClick={(e)=>{
+                  e.preventDefault();
+                  const form = e.currentTarget.closest('form');
+                  const subject = form?.subject?.value || "Contato via site — JR Montagens";
+                  const body = form?.body?.value || "";
+                  const href = `mailto:${COMPANY.contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                  window.location.href = href;
+                }} variant="primary">Enviar mensagem</Button>
+                <Button href="/assets/docs/apresentacao-jr.pdf" target="_blank" download>Baixar apresentação</Button>
+              </div>
+            </form>
+          </Card>
         </div>
-        <div className="text-sm text-gray-500">© {year} {COMPANY.tradeName}. Todos os direitos reservados.</div>
-      </div>
-    </footer>
+      </Section>
 
-    {current && (<div className="fixed inset-0 z-50 bg-black/75 flex items-center justify-center p-4" onClick={closeLightbox}>
-      <div className="max-w-5xl w-full" onClick={(e)=>e.stopPropagation()}>
-        <div className="flex items-center justify-between text-white mb-2"><div className="text-lg font-semibold">{current.title}</div><button className="rounded-lg px-3 py-1 bg-white/10 hover:bg-white/20" onClick={closeLightbox}>Fechar (Esc)</button></div>
-        <div className="text-sm text-gray-300 mb-3">{current.client} • {current.city}</div>
-        <div className="rounded-xl overflow-hidden bg-black relative">
-          <img src={current.cover} alt={current.title} className="w-full h-auto object-contain max-h-[80vh]" />
-          <button onClick={()=>setLightboxIndex(i=>(i-1+COMPANY.projects.length)%COMPANY.projects.length)} className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full px-3 py-2 bg-white/15 text-white hover:bg-white/25">⟵</button>
-          <button onClick={()=>setLightboxIndex(i=>(i+1)%COMPANY.projects.length)} className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full px-3 py-2 bg-white/15 text-white hover:bg-white/25">⟶</button>
+      <footer className="border-t bg-white">
+        <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="flex items-center gap-3">
+            <img src="/assets/logo.png" alt="JR Montagens Industriais" className="h-9 w-auto object-contain" />
+            <div>
+              <div className="font-semibold">{COMPANY.tradeName}</div>
+              <div className="text-xs text-gray-500">{COMPANY.contact.addressLine1} • {COMPANY.contact.addressLine2}</div>
+            </div>
+          </div>
+          <div className="text-sm text-gray-500">© {year} {COMPANY.tradeName}. Todos os direitos reservados.</div>
         </div>
-        <div className="mt-3 text-xs text-gray-400">Use ← → para navegar • Esc para fechar</div>
-      </div>
-    </div>)}
-  </div>);
+      </footer>
+
+      {current && (
+        <div className="fixed inset-0 z-50 bg-black/75 flex items-center justify-center p-4" onClick={closeLightbox}>
+          <div className="max-w-5xl w-full" onClick={(e)=>e.stopPropagation()}>
+            <div className="flex items-center justify-between text-white mb-2">
+              <div className="text-lg font-semibold">{current.title}</div>
+              <button className="rounded-lg px-3 py-1 bg-white/10 hover:bg-white/20" onClick={closeLightbox}>Fechar (Esc)</button>
+            </div>
+            <div className="text-sm text-gray-300 mb-3">{current.client} • {current.city}</div>
+            <div className="rounded-xl overflow-hidden bg-black relative">
+              <img src={current.cover} alt={current.title} className="w-full h-auto object-contain max-h-[80vh]" />
+              <button onClick={prev} className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full px-3 py-2 bg-white/15 text-white hover:bg-white/25">⟵</button>
+              <button onClick={next} className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full px-3 py-2 bg-white/15 text-white hover:bg-white/25">⟶</button>
+            </div>
+            <div className="mt-3 text-xs text-gray-400">Use ← → para navegar • Esc para fechar</div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
