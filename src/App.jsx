@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 const COMPANY = {
   tradeName: "JR Montagens Industriais",
   tagline: "Soluções completas em manutenção, fabricação e montagem industrial — tubulações, estruturas e combate a incêndio.",
-  ctaPrimary: { label: "Pedir orçamento", href: "mailto:comercial@jrmindustriais.com.br?subject=Solicitação%20de%20Orçamento%20-%20JR%20Montagens%20Industriais" },
+  ctaPrimary: { label: "Pedir orçamento", href: "mailto:comercial@jrmindustrias.com.br?subject=Solicitação%20de%20Orçamento%20—%20JR%20Montagens%20Industriais" },
   ctaSecondary: { label: "Portfólio", href: "#projetos" },
   about: "Há anos apoiamos clientes dos setores alimentício, sucroalcooleiro, siderúrgico, mineração, hidrelétrico e petroquímico. Nossa equipe executa fabricação e montagem de tubulações em aço carbono e inox (SCH/galvanizado/roscado/ranhurado), spools e manifolds; estruturas metálicas, skids e tanques; e sistemas de prevenção e combate a incêndio (hidrantes, sprinklers, suportação, pintura e testes). Trabalhamos com soldagem qualificada, controle de torque, testes de estanqueidade, tratamento de superfície e documentação técnica completa (RDO, medições, ART, “as built”). Do planejamento ao comissionamento e start-up, entregamos obras seguras, dentro do prazo e prontas para produzir.",
   sectors: ["Alimentício","Sucroalcooleiro","Siderúrgica","Mineração","Hidrelétrica","Petroquímico"],
@@ -32,7 +32,7 @@ const COMPANY = {
     addressLine1: "Rua Delhi, 1152 – Parque Agari",
     addressLine2: "Paranaguá/PR — CEP 83.215-230",
     phones: ["(41) 99167-8331","(41) 99961-7572","(41) 99722-3233"],
-    email: "comercial@jrmindustriais.com.br",
+    email: "comercial@jrmindustrias.com.br",
     directors: [
       { name: "José Aparecido — Diretor/ADM", phone: "(41) 99167-8331 / (41) 99961-7572" },
       { name: "Tiago Rodrigues — Diretor/Técnico", phone: "(16) 98196-7275 / (16) 99234-6728" }
@@ -88,6 +88,16 @@ export default function SiteJR() {
   const prev = () => setLightboxIndex((i) => (i - 1 + COMPANY.projects.length) % COMPANY.projects.length);
   const next = () => setLightboxIndex((i) => (i + 1) % COMPANY.projects.length);
   const current = lightboxIndex !== null ? COMPANY.projects[lightboxIndex] : null;
+
+  const handleMail = (e) => {
+    e.preventDefault();
+    const form = e.currentTarget.closest('form') || e.currentTarget;
+    const subject = form?.subject?.value || "Contato via site — JR Montagens";
+    const body = form?.body?.value || "";
+    const href = `mailto:${COMPANY.contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = href;
+  };
+
 
   return (<div className="min-h-screen text-gray-800">
     <header className="sticky top-0 z-40 backdrop-blur bg-white/70 border-b">
@@ -185,10 +195,10 @@ export default function SiteJR() {
         </Card>
         <Card className="p-6">
           <h3 className="font-semibold mb-2">Envie sua mensagem</h3><p className="text-sm text-gray-600 mb-4">O formulário abaixo abre seu e-mail com o assunto preenchido.</p>
-          <form action={COMPANY.ctaPrimary.href} method="get" className="space-y-3">
+          <form onSubmit={handleMail} className="space-y-3">
             <div><label className="text-sm">Assunto</label><input name="subject" className="mt-1 w-full rounded-xl border px-3 py-2" defaultValue="Contato via site — JR Montagens" /></div>
             <div><label className="text-sm">Mensagem</label><textarea name="body" rows={5} className="mt-1 w-full rounded-xl border px-3 py-2" placeholder="Descreva sua necessidade (escopo, prazos, local, etc.)" /></div>
-            <div className="flex gap-3"><Button href={COMPANY.ctaPrimary.href} variant="primary">Abrir e-mail</Button><Button href="/assets/docs/apresentacao-jr.pdf" target="_blank" download>Baixar apresentação</Button></div>
+            <div className="flex gap-3"><Button href="#" onClick={handleMail} variant="primary">Enviar mensagem</Button><Button href="/assets/docs/apresentacao-jr.pdf" target="_blank" download>Baixar apresentação</Button></div>
           </form>
         </Card>
       </div>
