@@ -66,15 +66,14 @@ const Section = ({ id, title, kicker, children }) => (
 );
 const Badge = ({ children }) => (<span className="inline-flex items-center rounded-full border px-4 py-2 text-sm md:text-base font-medium mr-2 mb-2">{children}</span>);
 const Card = ({ children, className = "" }) => (<div className={`rounded-2xl border shadow-sm hover:shadow-md transition ${className}`}>{children}</div>);
-const Button = ({ href, children, variant = "primary", hoverYellow = false, ...props }) => {
+const Button = ({ href, children, variant = "primary", ...props }) => {
   const base = "inline-flex items-center justify-center rounded-xl px-5 py-3 font-semibold border transition";
   const variants = {
     primary: "bg-black text-white border-black hover:opacity-90",
     secondary: "hover:bg-gray-50",
-    light: "text-white border-white/40 hover:bg-white/10 hover:text-yellow-400"
+    light: "text-white border-white/40 hover:bg-white/10"
   };
-  const extra = hoverYellow ? " hover:text-yellow-400" : "";
-  return (<a href={href} className={`${base} ${variants[variant] || variants.primary}${extra}`} {...props}>{children}</a>);
+  return (<a href={href} className={`${base} ${variants[variant] || variants.primary}`} {...props}>{children}</a>);
 };
 const NavLink = ({ href, children }) => (<a href={href} className="px-3 py-2 text-sm font-medium text-white/80 hover:text-yellow-400">{children}</a>);
 const Selo = ({ text }) => (
@@ -283,8 +282,14 @@ export default function SiteJR() {
                   const body = form?.body?.value || "";
                   const href = `mailto:${COMPANY.contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
                   window.location.href = href;
-                }} variant="primary" hoverYellow>Enviar mensagem</Button>
-                <Button href="/assets/docs/apresentacao-jr.pdf" target="_blank" download hoverYellow>Baixar apresentação</Button>
+                }} variant="primary"
+                onMouseEnter={(e)=>{ e.currentTarget.style.color = '#FACC15'; }}
+                onMouseLeave={(e)=>{ e.currentTarget.style.color = ''; }}
+                >Enviar mensagem</Button>
+                <Button href="/assets/docs/apresentacao-jr.pdf" target="_blank" download
+                onMouseEnter={(e)=>{ e.currentTarget.style.color = '#FACC15'; }}
+                onMouseLeave={(e)=>{ e.currentTarget.style.color = ''; }}
+                >Baixar apresentação</Button>
               </div>
             </form>
           </Card>
