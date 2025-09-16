@@ -66,7 +66,7 @@ const Selo = ({ text }) => (
   </span>
 );
 const Card = ({ children, className = "" }) => (<div className={`rounded-2xl border shadow-sm hover:shadow-md transition ${className}`}>{children}</div>);
-const Button = ({ href, children, variant = "primary" }) => (<a href={href} className={variant==="primary"?"inline-flex items-center justify-center rounded-xl px-5 py-3 font-semibold border bg-black text-white hover:opacity-90":"inline-flex items-center justify-center rounded-xl px-5 py-3 font-semibold border hover:bg-gray-50"}>{children}</a>);
+const Button = ({ href, children, variant = "primary", ...props }) => (<a href={href} className={variant==="primary"?"inline-flex items-center justify-center rounded-xl px-5 py-3 font-semibold border bg-black text-white hover:opacity-90":"inline-flex items-center justify-center rounded-xl px-5 py-3 font-semibold border hover:bg-gray-50"} {...props}>{children}</a>);
 const NavLink = ({ href, children }) => (<a href={href} className="px-3 py-2 text-sm font-medium hover:text-black/80">{children}</a>);
 
 export default function SiteJR() {
@@ -188,7 +188,7 @@ export default function SiteJR() {
           <form action={COMPANY.ctaPrimary.href} method="get" className="space-y-3">
             <div><label className="text-sm">Assunto</label><input name="subject" className="mt-1 w-full rounded-xl border px-3 py-2" defaultValue="Contato via site — JR Montagens" /></div>
             <div><label className="text-sm">Mensagem</label><textarea name="body" rows={5} className="mt-1 w-full rounded-xl border px-3 py-2" placeholder="Descreva sua necessidade (escopo, prazos, local, etc.)" /></div>
-            <div className="flex gap-3"><Button href={COMPANY.ctaPrimary.href} variant="primary">Abrir e-mail</Button><Button href="#">Baixar apresentação</Button></div>
+            <div className="flex gap-3"><Button href={COMPANY.ctaPrimary.href} variant="primary">Abrir e-mail</Button><Button href="/assets/docs/apresentacao-jr.pdf" target="_blank" download>Baixar apresentação</Button></div>
           </form>
         </Card>
       </div>
