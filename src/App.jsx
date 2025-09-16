@@ -71,7 +71,7 @@ const Button = ({ href, children, variant = "primary", ...props }) => {
   const variants = {
     primary: "bg-black text-white border-black hover:opacity-90",
     secondary: "hover:bg-gray-50",
-    light: "text-white border-white/40 hover:bg-white/10"
+    light: "text-white border-white/40 hover:bg-white/10 hover:text-yellow-400"
   };
   return (<a href={href} className={`${base} ${variants[variant] || variants.primary}`} {...props}>{children}</a>);
 };
