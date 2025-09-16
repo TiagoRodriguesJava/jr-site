@@ -27,3 +27,6 @@ Este pacote inclui:
    - Deployments → **Redeploy** → marque **Clear build cache**.
 
 Se ainda falhar, verifique os logs de build (procure por `vite` não encontrado ou erro de permissões).
+
+## Nota
+Este pacote usa `node ./node_modules/vite/bin/vite.js build` para evitar o erro de permissão no `/node_modules/.bin/vite`.
