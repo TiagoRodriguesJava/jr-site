@@ -216,7 +216,6 @@ export default function SiteJR() {
             </Card>
           ))}
         </div>
-        <p className="text-sm text-gray-500 mt-4">Dica: renomeie seus arquivos em <code>/public/assets/projetos/</code> com os nomes acima e substitua as imagens reais.</p>
       </Section>
 
       <Section id="clientes" title="Clientes" kicker="Confiança construída em campo">
@@ -235,9 +234,6 @@ export default function SiteJR() {
             </Card>
           ))}
         </div>
-        <p className="text-sm text-gray-500 mt-4">
-          Dica: substitua os arquivos em <code>/public/assets/clientes/</code> pelos logos reais (PNG/SVG com fundo transparente).
-        </p>
       </Section>
 
       <Section id="contato" title="Contato" kicker="Fale com a JR">
