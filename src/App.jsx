@@ -126,7 +126,35 @@ export default function SiteJR() {
             <NavLink href="#clientes">Clientes</NavLink>
             <NavLink href="#contato">Contato</NavLink>
             <div className="ml-4">
-              <Button href={COMPANY.ctaPrimary.href} variant="primary" onMouseEnter={(e)=>{ e.currentTarget.style.color = '#FACC15'; }} onMouseLeave={(e)=>{ e.currentTarget.style.color = ''; }}>{COMPANY.ctaPrimary.label}</Button>
+              <Button href={COMPANY.ctaPrimary.href} variant="light">Solicitar orçamento</Button>
+            </div>
+          </nav>
+          <button className="md:hidden p-2" onClick={() => setMenuOpen(!menuOpen)} aria-label="Abrir menu">
+            <Icon name="Menu" />
+          </button>
+        </div>
+        {menuOpen && (
+          <div className="md:hidden border-t border-white/10 bg-gray-900 text-white">
+            <div className="px-6 py-3 flex flex-col">
+              <a href="#servicos" className="py-2 text-white hover:text-yellow-400" onClick={() => setMenuOpen(false)}>Serviços</a>
+              <a href="#setores" className="py-2 text-white hover:text-yellow-400" onClick={() => setMenuOpen(false)}>Setores</a>
+              <a href="#projetos" className="py-2 text-white hover:text-yellow-400" onClick={() => setMenuOpen(false)}>Projetos</a>
+              <a href="#clientes" className="py-2 text-white hover:text-yellow-400" onClick={() => setMenuOpen(false)}>Clientes</a>
+              <a href="#contato" className="py-2 text-white hover:text-yellow-400" onClick={() => setMenuOpen(false)}>Contato</a>
+            </div>
+          </div>
+        )}
+      </header>
+
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-100" />
+        <div className="max-w-6xl mx-auto px-6 pt-16 pb-16 md:pt-24 md:pb-24 relative">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">{COMPANY.tagline}</h1>
+              <p className="mt-4 text-lg text-gray-600">{COMPANY.about}</p>
+              <div className="mt-6 flex gap-3">
+                <Button href={COMPANY.ctaPrimary.href} variant="primary">{COMPANY.ctaPrimary.label}</Button>
                 <Button href={COMPANY.ctaSecondary.href} variant="secondary">{COMPANY.ctaSecondary.label}</Button>
               </div>
               <div className="mt-6"><Selo text="Atuação em todo o Brasil" /></div>
