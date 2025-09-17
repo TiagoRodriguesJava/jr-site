@@ -126,10 +126,7 @@ export default function SiteJR() {
             <NavLink href="#clientes">Clientes</NavLink>
             <NavLink href="#contato">Contato</NavLink>
             <div className="ml-4">
-              <Button href={COMPANY.ctaPrimary.href} variant="light"
-              onMouseEnter={(e)=>{ e.currentTarget.style.color = '#FACC15'; }}
-              onMouseLeave={(e)=>{ e.currentTarget.style.color = ''; }}
-            >Solicitar orçamento</Button>
+              <Button href={COMPANY.ctaPrimary.href} variant="light">Solicitar orçamento</Button>
             </div>
           </nav>
           <button className="md:hidden p-2" onClick={() => setMenuOpen(!menuOpen)} aria-label="Abrir menu">
@@ -157,7 +154,7 @@ export default function SiteJR() {
               <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">{COMPANY.tagline}</h1>
               <p className="mt-4 text-lg text-gray-600">{COMPANY.about}</p>
               <div className="mt-6 flex gap-3">
-                <Button href={COMPANY.ctaPrimary.href} variant="primary">{COMPANY.ctaPrimary.label} onMouseEnter={(e)=>{ e.currentTarget.style.color = '#FACC15'; }} onMouseLeave={(e)=>{ e.currentTarget.style.color = ''; }}></Button>
+                <Button href={COMPANY.ctaPrimary.href} variant="primary">{COMPANY.ctaPrimary.label}</Button>
                 <Button href={COMPANY.ctaSecondary.href} variant="secondary">{COMPANY.ctaSecondary.label}</Button>
               </div>
               <div className="mt-6"><Selo text="Atuação em todo o Brasil" /></div>
