@@ -113,7 +113,9 @@ export default function SiteJR() {
       <header className="sticky top-0 z-40 backdrop-blur bg-gray-900/95 border-b border-white/10 text-white">
         <div className="max-w-6xl mx-auto px-6 h-20 md:h-24 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="bg-white rounded-xl p-1"><img src="/assets/logo.png" alt="JR Montagens Industriais" className="h-16 md:h-20 w-auto object-contain" /></div>
+            <div className="bg-white rounded-xl p-1">
+              <img src="/assets/logo.png" alt="JR Montagens Industriais" className="h-16 md:h-20 w-auto object-contain" />
+            </div>
             <div className="leading-tight text-white">
               <div className="font-bold">{COMPANY.tradeName}</div>
               <div className="text-xs text-white/60">Desde Paranaguá/PR para todo o Brasil</div>
@@ -126,11 +128,14 @@ export default function SiteJR() {
             <NavLink href="#clientes">Clientes</NavLink>
             <NavLink href="#contato">Contato</NavLink>
             <div className="ml-4">
-              <Button href={COMPANY.ctaPrimary.href} variant="light">Solicitar orçamento</Button>
+              <Button href={COMPANY.ctaPrimary.href} variant="light"
+                onMouseEnter={(e)=>{ e.currentTarget.style.color = '#FACC15'; }}
+                onMouseLeave={(e)=>{ e.currentTarget.style.color = ''; }}
+              >Solicitar orçamento</Button>
             </div>
           </nav>
           <button className="md:hidden p-2" onClick={() => setMenuOpen(!menuOpen)} aria-label="Abrir menu">
-            <Icon name="Menu" />
+            <Icon name="Menu" className="text-white" />
           </button>
         </div>
         {menuOpen && (
@@ -154,8 +159,14 @@ export default function SiteJR() {
               <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">{COMPANY.tagline}</h1>
               <p className="mt-4 text-lg text-gray-600">{COMPANY.about}</p>
               <div className="mt-6 flex gap-3">
-                <Button href={COMPANY.ctaPrimary.href} variant="primary">{COMPANY.ctaPrimary.label}</Button>
-                <Button href={COMPANY.ctaSecondary.href} variant="secondary">{COMPANY.ctaSecondary.label}</Button>
+                <Button href={COMPANY.ctaPrimary.href} variant="primary"
+                  onMouseEnter={(e)=>{ e.currentTarget.style.color = '#FACC15'; }}
+                  onMouseLeave={(e)=>{ e.currentTarget.style.color = ''; }}
+                >{COMPANY.ctaPrimary.label}</Button>
+                <Button href={COMPANY.ctaSecondary.href} variant="secondary"
+                  onMouseEnter={(e)=>{ e.currentTarget.style.color = '#FACC15'; }}
+                  onMouseLeave={(e)=>{ e.currentTarget.style.color = ''; }}
+                >{COMPANY.ctaSecondary.label}</Button>
               </div>
               <div className="mt-6"><Selo text="Atuação em todo o Brasil" /></div>
             </div>
@@ -283,12 +294,12 @@ export default function SiteJR() {
                   const href = `mailto:${COMPANY.contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
                   window.location.href = href;
                 }} variant="primary"
-                onMouseEnter={(e)=>{ e.currentTarget.style.color = '#FACC15'; }}
-                onMouseLeave={(e)=>{ e.currentTarget.style.color = ''; }}
+                  onMouseEnter={(e)=>{ e.currentTarget.style.color = '#FACC15'; }}
+                  onMouseLeave={(e)=>{ e.currentTarget.style.color = ''; }}
                 >Enviar mensagem</Button>
                 <Button href="/assets/docs/apresentacao-jr.pdf" target="_blank" download
-                onMouseEnter={(e)=>{ e.currentTarget.style.color = '#FACC15'; }}
-                onMouseLeave={(e)=>{ e.currentTarget.style.color = ''; }}
+                  onMouseEnter={(e)=>{ e.currentTarget.style.color = '#FACC15'; }}
+                  onMouseLeave={(e)=>{ e.currentTarget.style.color = ''; }}
                 >Baixar apresentação</Button>
               </div>
             </form>
