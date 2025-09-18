@@ -20,13 +20,13 @@ const COMPANY = {
     { title: "Montagem de hidrantes e tubulações", client: "Obra Navegantes", city: "Navegantes/SC", cover: "/assets/projetos/hidrantes-navegantes.jpg" },
     { title: "Tubulações de prevenção de incêndio", client: "KOCH", city: "Tijucas/SC", cover: "/assets/projetos/prevencao-incendio-koch.jpg" },
     { title: "Tubulações de prevenção de incêndio", client: "Suzano", city: "Aracruz/ES", cover: "/assets/projetos/prevencao-incendio-suzano.jpg" },
-    { title: "Montagem da caldeira HPB", client: "Fábrica de Papel Clingeli", city: "Nova Campina/SP", cover: "/assets/projetos/caldeira-hpb-clingeli.jpg" }
+    { title: "Montagem da caldeira HPB", client: "Fábrica de Papel Klingele", city: "Nova Campina/SP", cover: "/assets/projetos/caldeira-hpb-clingeli.jpg" }
   ],
   clients: [
     { name: "CBL", logo: "/assets/clientes/cbl.png" },
     { name: "KOCH", logo: "/assets/clientes/koch.png" },
     { name: "Suzano", logo: "/assets/clientes/suzano.png" },
-    { name: "Clingeli", logo: "/assets/clientes/clingeli.png" },
+    { name: "Klingeli", logo: "/assets/clientes/clingeli.png" },
     { name: "Ituiutaba (Usina)", logo: "/assets/clientes/ituiutaba.png" }
   ],
   contact: {
