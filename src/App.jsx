@@ -26,7 +26,7 @@ const COMPANY = {
     { name: "CBL", logo: "/assets/clientes/cbl.png" },
     { name: "KOCH", logo: "/assets/clientes/koch.png" },
     { name: "Suzano", logo: "/assets/clientes/suzano.png" },
-    { name: "Klingeli", logo: "/assets/clientes/clingeli.png" },
+    { name: "Klingele", logo: "/assets/clientes/clingeli.png" },
     { name: "Ituiutaba (Usina)", logo: "/assets/clientes/ituiutaba.png" }
   ],
   contact: {
