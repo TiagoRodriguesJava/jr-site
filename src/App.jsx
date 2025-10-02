@@ -172,19 +172,43 @@ const Selo = ({ text }) => (
 function ProjectCard({ project, onOpen }) {
   const imgs = project.images?.length ? project.images : [project.cover];
   const [i, setI] = useState(0);
+  const [paused, setPaused] = useState(false);
+
   const next = () => setI((v) => (v + 1) % imgs.length);
   const prev = () => setI((v) => (v - 1 + imgs.length) % imgs.length);
+
+  // autoplay a cada 4s; pausa ao passar o mouse
+  React.useEffect(() => {
+    if (imgs.length <= 1 || paused) return;
+    const id = setInterval(next, 4000);
+    return () => clearInterval(id);
+  }, [i, paused, imgs.length]);
+
   return (
     <Card className="overflow-hidden">
-      <div className="relative aspect-video bg-gray-100">
-        <img src={imgs[i]} alt={`${project.title} — ${project.city}`} className="w-full h-full object-cover cursor-pointer" onClick={() => onOpen(imgs, i, project)} />
+      <div
+        className="relative aspect-video bg-gray-100"
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+      >
+        <img
+          src={imgs[i]}
+          alt={`${project.title} — ${project.city}`}
+          className="w-full h-full object-cover cursor-pointer"
+          onClick={() => onOpen(imgs, i, project)}
+        />
         {imgs.length > 1 && (
           <>
             <button onClick={prev} className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full px-3 py-2 bg-white/70 hover:bg-white">⟵</button>
             <button onClick={next} className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full px-3 py-2 bg-white/70 hover:bg-white">⟶</button>
             <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
               {imgs.map((_, idx) => (
-                <button key={idx} onClick={() => setI(idx)} className={`h-2 w-2 rounded-full ${idx === i ? "bg-black" : "bg-white/70 border"} `} aria-label={`Ir para imagem ${idx+1}`} />
+                <button
+                  key={idx}
+                  onClick={() => setI(idx)}
+                  className={`h-2 w-2 rounded-full ${idx === i ? "bg-black" : "bg-white/70 border"}`}
+                  aria-label={`Ir para imagem ${idx + 1}`}
+                />
               ))}
             </div>
           </>
@@ -225,11 +249,13 @@ export default function SiteJR() {
             </div>
           </div>
           <nav className="hidden md:flex items-center">
+            <NavLink href="#inicio">Início</NavLink>
             <NavLink href="#servicos">Serviços</NavLink>
             <NavLink href="#setores">Setores</NavLink>
             <NavLink href="#projetos">Projetos</NavLink>
             <NavLink href="#clientes">Clientes</NavLink>
             <NavLink href="#contato">Contato</NavLink>
+            </nav>
             <div className="ml-4">
               <Button href={COMPANY.ctaPrimary.href} variant="light" onMouseEnter={(e)=>{ e.currentTarget.style.color='#FACC15' }} onMouseLeave={(e)=>{ e.currentTarget.style.color='' }}>Solicitar orçamento</Button>
             </div>
@@ -239,7 +265,8 @@ export default function SiteJR() {
         {menuOpen && (
           <div className="md:hidden border-t border-white/10 bg-gray-900 text-white">
             <div className="px-6 py-3 flex flex-col">
-              <a href="#servicos" className="py-2 text-white hover:text-yellow-400" onClick={() => setMenuOpen(false)}>Serviços</a>
+               <a href="#inicio" className="py-2 text-white hover:text-yellow-400" onClick={() => setMenuOpen(false)}>Início</a>
+               <a href="#servicos" className="py-2 text-white hover:text-yellow-400" onClick={() => setMenuOpen(false)}>Serviços</a>
               <a href="#setores" className="py-2 text-white hover:text-yellow-400" onClick={() => setMenuOpen(false)}>Setores</a>
               <a href="#projetos" className="py-2 text-white hover:text-yellow-400" onClick={() => setMenuOpen(false)}>Projetos</a>
               <a href="#clientes" className="py-2 text-white hover:text-yellow-400" onClick={() => setMenuOpen(false)}>Clientes</a>
@@ -249,7 +276,7 @@ export default function SiteJR() {
         )}
       </header>
 
-      <section className="relative overflow-hidden">
+      <section id="inicio" className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-100" />
         <div className="max-w-6xl mx-auto px-6 pt-16 pb-16 md:pt-24 md:pb-24 relative">
           <div className="grid md:grid-cols-2 gap-12 items-center">
