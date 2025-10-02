@@ -14,13 +14,70 @@ const COMPANY = {
     { title: "Estruturas e Tanques", desc: "Estruturas metálicas, tanques e reservatórios.", bullets: ["Macaco hidráulico","Andaimes","PTA","Tratamento de superfície","Documentação técnica"], icon: "Cubes" }
   ],
   projects: [
-    { title: "Fabricação e montagem de tanques de combustível", client: "CBL", city: "Paranaguá/PR", cover: "/assets/projetos/tanque-cbl-paranagua.jpg" },
-    { title: "Fabricação e montagem de ginásio de esportes", client: "Prefeitura (obra civil)", city: "Paranaguá/PR", cover: "/assets/projetos/ginasio-paranagua.jpg" },
-    { title: "Montagem na usina (linha de processo)", client: "Ituiutaba", city: "Ituiutaba/MG", cover: "/assets/projetos/usina-ituiutaba.jpg" },
-    { title: "Montagem de hidrantes e tubulações", client: "Obra Navegantes", city: "Navegantes/SC", cover: "/assets/projetos/hidrantes-navegantes.jpg" },
-    { title: "Tubulações de prevenção de incêndio", client: "KOCH", city: "Tijucas/SC", cover: "/assets/projetos/prevencao-incendio-koch.jpg" },
-    { title: "Tubulações de prevenção de incêndio", client: "Suzano", city: "Aracruz/ES", cover: "/assets/projetos/prevencao-incendio-suzano.jpg" },
-    { title: "Montagem da caldeira HPB", client: "Fábrica de Papel Klingele", city: "Nova Campina/SP", cover: "/assets/projetos/caldeira-hpb-clingeli.jpg" }
+    {
+      title: "Fabricação e montagem de tanques de combustível",
+      client: "CBL",
+      city: "Paranaguá/PR",
+      cover: "/assets/projetos/tanque-cbl-paranagua.jpg",
+      images: [
+        "/assets/projetos/tanque-cbl-paranagua.jpg",
+        "/assets/projetos/tanque-cbl-paranagua-2.jpg",
+        "/assets/projetos/tanque-cbl-paranagua-3.jpg"
+      ]
+    },
+    {
+      title: "Fabricação e montagem de ginásio de esportes",
+      client: "Prefeitura (obra civil)",
+      city: "Paranaguá/PR",
+      cover: "/assets/projetos/ginasio-paranagua.jpg",
+      images: ["/assets/projetos/ginasio-paranagua.jpg","/assets/projetos/ginasio-paranagua-2.jpg"]
+    },
+    {
+      title: "Montagem na usina (linha de processo)",
+      client: "Ituiutaba",
+      city: "Ituiutaba/MG",
+      cover: "/assets/projetos/usina-ituiutaba.jpg",
+      images: ["/assets/projetos/usina-ituiutaba.jpg","/assets/projetos/usina-ituiutaba-2.jpg"]
+    },
+    {
+      title: "Montagem de hidrantes e tubulações",
+      client: "Obra Navegantes",
+      city: "Navegantes/SC",
+      cover: "/assets/projetos/hidrantes-navegantes.jpg",
+      images: ["/assets/projetos/hidrantes-navegantes.jpg","/assets/projetos/hidrantes-navegantes-2.jpg"]
+    },
+    {
+      title: "Tubulações de prevenção de incêndio",
+      client: "KOCH",
+      city: "Tijucas/SC",
+      cover: "/assets/projetos/prevencao-incendio-koch.jpg",
+      images: ["/assets/projetos/prevencao-incendio-koch.jpg","/assets/projetos/prevencao-incendio-koch-2.jpg"]
+    },
+    {
+      title: "Tubulações de prevenção de incêndio",
+      client: "Suzano",
+      city: "Aracruz/ES",
+      cover: "/assets/projetos/prevencao-incendio-suzano.jpg",
+      images: ["/assets/projetos/prevencao-incendio-suzano.jpg","/assets/projetos/prevencao-incendio-suzano-2.jpg"]
+    },
+    {
+      title: "Montagem da caldeira HPB",
+      client: "Fábrica de Papel Klingele",
+      city: "Nova Campina/SP",
+      cover: "/assets/projetos/caldeira-hpb-clingeli.jpg",
+      images: ["/assets/projetos/caldeira-hpb-clingeli.jpg","/assets/projetos/caldeira-hpb-clingeli-2.jpg"]
+    },
+    {
+      title: "Fabricação e Montagem Pipe Rack e Tubulações",
+      client: "Instituto Butantan",
+      city: "São Paulo/SP",
+      cover: "/assets/projetos/butantan-piperack.jpg",
+      images: [
+        "/assets/projetos/butantan-piperack.jpg",
+        "/assets/projetos/butantan-piperack-2.jpg",
+        "/assets/projetos/butantan-piperack-3.jpg"
+      ]
+    }
   ],
   clients: [
     { name: "CBL", logo: "/assets/clientes/cbl.png" },
@@ -85,28 +142,67 @@ const Selo = ({ text }) => (
   </span>
 );
 
+// Mini-carrossel por obra (card)
+function ProjectCard({ project, onOpen }) {
+  const imgs = project.images?.length ? project.images : [project.cover];
+  const [i, setI] = useState(0);
+  const next = () => setI((v) => (v + 1) % imgs.length);
+  const prev = () => setI((v) => (v - 1 + imgs.length) % imgs.length);
+  return (
+    <Card className="overflow-hidden">
+      <div className="relative aspect-video bg-gray-100">
+        <img
+          src={imgs[i]}
+          alt={`${project.title} — ${project.city}`}
+          className="w-full h-full object-cover cursor-pointer"
+          onClick={() => onOpen(imgs, i, project)}
+        />
+        {imgs.length > 1 && (
+          <>
+            <button onClick={prev} className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full px-3 py-2 bg-white/70 hover:bg-white">⟵</button>
+            <button onClick={next} className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full px-3 py-2 bg-white/70 hover:bg-white">⟶</button>
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+              {imgs.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setI(idx)}
+                  className={`h-2 w-2 rounded-full ${idx === i ? "bg-black" : "bg-white/70 border"} `}
+                  aria-label={`Ir para imagem ${idx+1}`}
+                />
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+      <div className="p-4">
+        <h3 className="font-semibold leading-snug">{project.title}</h3>
+        <p className="text-sm text-gray-600">{project.client} • {project.city}</p>
+      </div>
+    </Card>
+  );
+}
+
 export default function SiteJR() {
   const [menuOpen, setMenuOpen] = useState(false);
   const year = useMemo(() => new Date().getFullYear(), []);
-  const [lightboxIndex, setLightboxIndex] = useState(null);
+
+  // Lightbox de imagens da obra selecionada
+  const [lb, setLb] = useState(null); // { images: string[], index: number, meta: project }
+  const openLightbox = (images, index, meta) => setLb({ images, index, meta });
+  const closeLightbox = () => setLb(null);
+  const prev = () => setLb((s) => ({ ...s, index: (s.index - 1 + s.images.length) % s.images.length }));
+  const next = () => setLb((s) => ({ ...s, index: (s.index + 1) % s.images.length }));
 
   useEffect(() => {
     const onKey = (e) => {
-      if (lightboxIndex === null) return;
-      if (e.key === "Escape") setLightboxIndex(null);
-      if (e.key === "ArrowRight") setLightboxIndex((i) => (i + 1) % COMPANY.projects.length);
-      if (e.key === "ArrowLeft") setLightboxIndex((i) => (i - 1 + COMPANY.projects.length) % COMPANY.projects.length);
+      if (!lb) return;
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowRight") next();
+      if (e.key === "ArrowLeft") prev();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [lightboxIndex]);
-
-  const openLightbox = (idx) => setLightboxIndex(idx);
-  const closeLightbox = () => setLightboxIndex(null);
-  const prev = () => setLightboxIndex((i) => (i - 1 + COMPANY.projects.length) % COMPANY.projects.length);
-  const next = () => setLightboxIndex((i) => (i + 1) % COMPANY.projects.length);
-
-  const current = lightboxIndex !== null ? COMPANY.projects[lightboxIndex] : null;
+  }, [lb]);
 
   return (
     <div className="min-h-screen text-gray-800">
@@ -204,16 +300,8 @@ export default function SiteJR() {
 
       <Section id="projetos" title="Projetos em destaque" kicker="Portfólio real">
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {COMPANY.projects.map((p, idx) => (
-            <Card key={p.title} className="overflow-hidden">
-              <div className="aspect-video bg-gray-100 cursor-pointer" onClick={() => openLightbox(idx)}>
-                <img src={p.cover} alt={`${p.title} — ${p.city}`} className="w-full h-full object-cover" />
-              </div>
-              <div className="p-4">
-                <h3 className="font-semibold leading-snug">{p.title}</h3>
-                <p className="text-sm text-gray-600">{p.client} • {p.city}</p>
-              </div>
-            </Card>
+          {COMPANY.projects.map((p) => (
+            <ProjectCard key={p.title} project={p} onOpen={openLightbox} />
           ))}
         </div>
       </Section>
@@ -312,20 +400,20 @@ export default function SiteJR() {
               <div className="text-xs text-gray-500">{COMPANY.contact.addressLine1} • {COMPANY.contact.addressLine2}</div>
             </div>
           </div>
-          <div className="text-sm text-gray-500">© {year} {COMPANY.tradeName}. Todos os direitos reservados.</div>
+          <div className="text-sm text-gray-500">© {new Date().getFullYear()} {COMPANY.tradeName}. Todos os direitos reservados.</div>
         </div>
       </footer>
 
-      {current && (
+      {lb && (
         <div className="fixed inset-0 z-50 bg-black/75 flex items-center justify-center p-4" onClick={closeLightbox}>
           <div className="max-w-5xl w-full" onClick={(e)=>e.stopPropagation()}>
             <div className="flex items-center justify-between text-white mb-2">
-              <div className="text-lg font-semibold">{current.title}</div>
+              <div className="text-lg font-semibold">{lb.meta?.title}</div>
               <button className="rounded-lg px-3 py-1 bg-white/10 hover:bg-white/20" onClick={closeLightbox}>Fechar (Esc)</button>
             </div>
-            <div className="text-sm text-gray-300 mb-3">{current.client} • {current.city}</div>
+            <div className="text-sm text-gray-300 mb-3">{lb.meta?.client} • {lb.meta?.city}</div>
             <div className="rounded-xl overflow-hidden bg-black relative">
-              <img src={current.cover} alt={current.title} className="w-full h-auto object-contain max-h-[80vh]" />
+              <img src={lb.images[lb.index]} alt={lb.meta?.title} className="w-full h-auto object-contain max-h-[80vh]" />
               <button onClick={prev} className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full px-3 py-2 bg-white/15 text-white hover:bg-white/25">⟵</button>
               <button onClick={next} className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full px-3 py-2 bg-white/15 text-white hover:bg-white/25">⟶</button>
             </div>
