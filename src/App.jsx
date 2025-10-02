@@ -65,7 +65,12 @@ const COMPANY = {
       client: "Fábrica de Papel Klingele",
       city: "Nova Campina/SP",
       cover: "/assets/projetos/caldeira-hpb-clingeli.jpg",
-      images: ["/assets/projetos/caldeira-hpb-clingeli.jpg","/assets/projetos/caldeira-hpb-clingeli-2.jpg"]
+      images: ["/assets/projetos/caldeira-hpb-clingeli.jpg",
+        "/assets/projetos/caldeira-hpb-clingeli-2.jpg",
+        "/assets/projetos/caldeira-hpb-clingeli-3.jpg",
+        "/assets/projetos/caldeira-hpb-clingeli-4.jpg",
+        "/assets/projetos/caldeira-hpb-clingeli-5.jpg"
+      ]
     },
     {
       title: "Fabricação e Montagem Pipe Rack e Tubulações",
@@ -76,6 +81,27 @@ const COMPANY = {
         "/assets/projetos/butantan-piperack.jpg",
         "/assets/projetos/butantan-piperack-2.jpg",
         "/assets/projetos/butantan-piperack-3.jpg"
+      ]
+    },
+    {
+      title: "Montagem de Tubulação de Inox, Válvulas, Torre de Resfriamento e Interligações",
+      client: "Usina Eldorado",
+      city: "MS",
+      cover: "/assets/projetos/eldorado-inox.jpg",
+      images: [
+        "/assets/projetos/eldorado-inox.jpg",
+        "/assets/projetos/eldorado-inox-2.jpg",
+        "/assets/projetos/eldorado-inox-3.jpg",
+        "/assets/projetos/eldorado-inox-4.jpg"
+      ]
+    },
+    {
+      title: "Montagem de Silos e Estrutura",
+      client: "TKCSA — Siderúrgica do Atlântico",
+      city: "Rio de Janeiro/RJ",
+      cover: "/assets/projetos/tkcsa-silos-estrutura.jpg",
+      images: [
+        "/assets/projetos/tkcsa-silos-estrutura.jpg"
       ]
     }
   ],
@@ -142,7 +168,7 @@ const Selo = ({ text }) => (
   </span>
 );
 
-// Mini-carrossel por obra (card)
+// Project card with mini carousel
 function ProjectCard({ project, onOpen }) {
   const imgs = project.images?.length ? project.images : [project.cover];
   const [i, setI] = useState(0);
@@ -151,24 +177,14 @@ function ProjectCard({ project, onOpen }) {
   return (
     <Card className="overflow-hidden">
       <div className="relative aspect-video bg-gray-100">
-        <img
-          src={imgs[i]}
-          alt={`${project.title} — ${project.city}`}
-          className="w-full h-full object-cover cursor-pointer"
-          onClick={() => onOpen(imgs, i, project)}
-        />
+        <img src={imgs[i]} alt={`${project.title} — ${project.city}`} className="w-full h-full object-cover cursor-pointer" onClick={() => onOpen(imgs, i, project)} />
         {imgs.length > 1 && (
           <>
             <button onClick={prev} className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full px-3 py-2 bg-white/70 hover:bg-white">⟵</button>
             <button onClick={next} className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full px-3 py-2 bg-white/70 hover:bg-white">⟶</button>
             <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
               {imgs.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setI(idx)}
-                  className={`h-2 w-2 rounded-full ${idx === i ? "bg-black" : "bg-white/70 border"} `}
-                  aria-label={`Ir para imagem ${idx+1}`}
-                />
+                <button key={idx} onClick={() => setI(idx)} className={`h-2 w-2 rounded-full ${idx === i ? "bg-black" : "bg-white/70 border"} `} aria-label={`Ir para imagem ${idx+1}`} />
               ))}
             </div>
           </>
@@ -185,25 +201,16 @@ function ProjectCard({ project, onOpen }) {
 export default function SiteJR() {
   const [menuOpen, setMenuOpen] = useState(false);
   const year = useMemo(() => new Date().getFullYear(), []);
-
-  // Lightbox de imagens da obra selecionada
-  const [lb, setLb] = useState(null); // { images: string[], index: number, meta: project }
+  const [lb, setLb] = useState(null);
   const openLightbox = (images, index, meta) => setLb({ images, index, meta });
   const closeLightbox = () => setLb(null);
   const prev = () => setLb((s) => ({ ...s, index: (s.index - 1 + s.images.length) % s.images.length }));
   const next = () => setLb((s) => ({ ...s, index: (s.index + 1) % s.images.length }));
-
   useEffect(() => {
-    const onKey = (e) => {
-      if (!lb) return;
-      if (e.key === "Escape") closeLightbox();
-      if (e.key === "ArrowRight") next();
-      if (e.key === "ArrowLeft") prev();
-    };
+    const onKey = (e) => { if (!lb) return; if (e.key === "Escape") closeLightbox(); if (e.key === "ArrowRight") next(); if (e.key === "ArrowLeft") prev(); };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [lb]);
-
   return (
     <div className="min-h-screen text-gray-800">
       <header className="sticky top-0 z-40 backdrop-blur bg-gray-900/95 border-b border-white/10 text-white">
@@ -224,15 +231,10 @@ export default function SiteJR() {
             <NavLink href="#clientes">Clientes</NavLink>
             <NavLink href="#contato">Contato</NavLink>
             <div className="ml-4">
-              <Button href={COMPANY.ctaPrimary.href} variant="light"
-                onMouseEnter={(e)=>{ e.currentTarget.style.color = '#FACC15'; }}
-                onMouseLeave={(e)=>{ e.currentTarget.style.color = ''; }}
-              >Solicitar orçamento</Button>
+              <Button href={COMPANY.ctaPrimary.href} variant="light" onMouseEnter={(e)=>{ e.currentTarget.style.color='#FACC15' }} onMouseLeave={(e)=>{ e.currentTarget.style.color='' }}>Solicitar orçamento</Button>
             </div>
           </nav>
-          <button className="md:hidden p-2" onClick={() => setMenuOpen(!menuOpen)} aria-label="Abrir menu">
-            <Icon name="Menu" className="text-white" />
-          </button>
+          <button className="md:hidden p-2" onClick={() => setMenuOpen(!menuOpen)} aria-label="Abrir menu"><Icon name="Menu" className="text-white" /></button>
         </div>
         {menuOpen && (
           <div className="md:hidden border-t border-white/10 bg-gray-900 text-white">
@@ -255,14 +257,8 @@ export default function SiteJR() {
               <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">{COMPANY.tagline}</h1>
               <p className="mt-4 text-lg text-gray-600">{COMPANY.about}</p>
               <div className="mt-6 flex gap-3">
-                <Button href={COMPANY.ctaPrimary.href} variant="primary"
-                  onMouseEnter={(e)=>{ e.currentTarget.style.color = '#FACC15'; }}
-                  onMouseLeave={(e)=>{ e.currentTarget.style.color = ''; }}
-                >{COMPANY.ctaPrimary.label}</Button>
-                <Button href={COMPANY.ctaSecondary.href} variant="secondary"
-                  onMouseEnter={(e)=>{ e.currentTarget.style.color = '#FACC15'; }}
-                  onMouseLeave={(e)=>{ e.currentTarget.style.color = ''; }}
-                >{COMPANY.ctaSecondary.label}</Button>
+                <Button href={COMPANY.ctaPrimary.href} variant="primary" onMouseEnter={(e)=>{ e.currentTarget.style.color='#FACC15' }} onMouseLeave={(e)=>{ e.currentTarget.style.color='' }}>{COMPANY.ctaPrimary.label}</Button>
+                <Button href={COMPANY.ctaSecondary.href} variant="secondary" onMouseEnter={(e)=>{ e.currentTarget.style.color='#FACC15' }} onMouseLeave={(e)=>{ e.currentTarget.style.color='' }}>{COMPANY.ctaSecondary.label}</Button>
               </div>
               <div className="mt-6"><Selo text="Atuação em todo o Brasil" /></div>
             </div>
@@ -300,9 +296,7 @@ export default function SiteJR() {
 
       <Section id="projetos" title="Projetos em destaque" kicker="Portfólio real">
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {COMPANY.projects.map((p) => (
-            <ProjectCard key={p.title} project={p} onOpen={openLightbox} />
-          ))}
+          {COMPANY.projects.map((p) => (<ProjectCard key={p.title} project={p} onOpen={(images, i, meta)=>setLb({images,index:i,meta})} />))}
         </div>
       </Section>
 
@@ -311,12 +305,7 @@ export default function SiteJR() {
           {COMPANY.clients.map((c) => (
             <Card key={c.name} className="p-6 h-28 md:h-32 flex items-center justify-center text-center">
               <div className="w-full h-full flex items-center justify-center">
-                <img
-                  src={c.logo}
-                  alt={c.name}
-                  className="max-h-full w-auto object-contain"
-                  onError={(e)=>{ e.currentTarget.style.display='none'; e.currentTarget.nextSibling.style.display='block'; }}
-                />
+                <img src={c.logo} alt={c.name} className="max-h-full w-auto object-contain" onError={(e)=>{ e.currentTarget.style.display='none'; e.currentTarget.nextSibling.style.display='block'; }} />
                 <span className="hidden text-sm font-semibold">{c.name}</span>
               </div>
             </Card>
@@ -334,57 +323,23 @@ export default function SiteJR() {
             </div></div>
             <div className="flex items-start gap-3 mb-3"><Icon name="Phone" /><div>
               <h3 className="font-semibold">Telefones</h3>
-              <ul className="text-sm text-gray-600">
-                {COMPANY.contact.phones.map((p) => (<li key={p}>{p}</li>))}
-              </ul>
+              <ul className="text-sm text-gray-600">{COMPANY.contact.phones.map((p) => (<li key={p}>{p}</li>))}</ul>
             </div></div>
             <div className="flex items-start gap-3"><Icon name="Mail" /><div>
               <h3 className="font-semibold">E-mail</h3>
               <a className="text-sm text-blue-600 underline" href={`mailto:${COMPANY.contact.email}`}>{COMPANY.contact.email}</a>
             </div></div>
-            <div className="mt-6">
-              <h4 className="font-semibold mb-2">Diretoria</h4>
-              <ul className="text-sm text-gray-600">
-                {COMPANY.contact.directors.map((d) => (<li key={d.name} className="mb-1">{d.name} — {d.phone}</li>))}
-              </ul>
-            </div>
           </Card>
 
           <Card className="p-6">
             <h3 className="font-semibold mb-2">Envie sua mensagem</h3>
             <p className="text-sm text-gray-600 mb-4">O formulário abaixo abre seu e-mail com o assunto preenchido.</p>
-            <form onSubmit={(e)=>{
-              e.preventDefault();
-              const form = e.currentTarget;
-              const subject = form?.subject?.value || "Contato via site — JR Montagens";
-              const body = form?.body?.value || "";
-              const href = `mailto:${COMPANY.contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-              window.location.href = href;
-            }} className="space-y-3">
-              <div>
-                <label className="text-sm">Assunto</label>
-                <input name="subject" className="mt-1 w-full rounded-xl border px-3 py-2" defaultValue="Contato via site — JR Montagens" />
-              </div>
-              <div>
-                <label className="text-sm">Mensagem</label>
-                <textarea name="body" rows={5} className="mt-1 w-full rounded-xl border px-3 py-2" placeholder="Descreva sua necessidade (escopo, prazos, local, etc.)" />
-              </div>
+            <form onSubmit={(e)=>{e.preventDefault();const f=e.currentTarget;const s=f?.subject?.value||"Contato via site — JR Montagens";const b=f?.body?.value||"";const href=`mailto:${COMPANY.contact.email}?subject=${encodeURIComponent(s)}&body=${encodeURIComponent(b)}`;window.location.href=href;}} className="space-y-3">
+              <div><label className="text-sm">Assunto</label><input name="subject" className="mt-1 w-full rounded-xl border px-3 py-2" defaultValue="Contato via site — JR Montagens" /></div>
+              <div><label className="text-sm">Mensagem</label><textarea name="body" rows={5} className="mt-1 w-full rounded-xl border px-3 py-2" placeholder="Descreva sua necessidade (escopo, prazos, local, etc.)" /></div>
               <div className="flex gap-3">
-                <Button href="#" onClick={(e)=>{
-                  e.preventDefault();
-                  const form = e.currentTarget.closest('form');
-                  const subject = form?.subject?.value || "Contato via site — JR Montagens";
-                  const body = form?.body?.value || "";
-                  const href = `mailto:${COMPANY.contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-                  window.location.href = href;
-                }} variant="primary"
-                  onMouseEnter={(e)=>{ e.currentTarget.style.color = '#FACC15'; }}
-                  onMouseLeave={(e)=>{ e.currentTarget.style.color = ''; }}
-                >Enviar mensagem</Button>
-                <Button href="/assets/docs/apresentacao-jr.pdf" target="_blank" download
-                  onMouseEnter={(e)=>{ e.currentTarget.style.color = '#FACC15'; }}
-                  onMouseLeave={(e)=>{ e.currentTarget.style.color = ''; }}
-                >Baixar apresentação</Button>
+                <Button href="#" onClick={(e)=>{e.preventDefault();const f=e.currentTarget.closest('form');const s=f?.subject?.value||"Contato via site — JR Montagens";const b=f?.body?.value||"";const href=`mailto:${COMPANY.contact.email}?subject=${encodeURIComponent(s)}&body=${encodeURIComponent(b)}`;window.location.href=href;}} variant="primary" onMouseEnter={(e)=>{e.currentTarget.style.color='#FACC15'}} onMouseLeave={(e)=>{e.currentTarget.style.color=''}}>Enviar mensagem</Button>
+                <Button href="/assets/docs/apresentacao-jr.pdf" target="_blank" download onMouseEnter={(e)=>{e.currentTarget.style.color='#FACC15'}} onMouseLeave={(e)=>{e.currentTarget.style.color=''}}>Baixar apresentação</Button>
               </div>
             </form>
           </Card>
@@ -395,27 +350,24 @@ export default function SiteJR() {
         <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="flex items-center gap-3">
             <img src="/assets/logo.png" alt="JR Montagens Industriais" className="h-9 w-auto object-contain" />
-            <div>
-              <div className="font-semibold">{COMPANY.tradeName}</div>
-              <div className="text-xs text-gray-500">{COMPANY.contact.addressLine1} • {COMPANY.contact.addressLine2}</div>
-            </div>
+            <div><div className="font-semibold">{COMPANY.tradeName}</div><div className="text-xs text-gray-500">{COMPANY.contact.addressLine1} • {COMPANY.contact.addressLine2}</div></div>
           </div>
-          <div className="text-sm text-gray-500">© {new Date().getFullYear()} {COMPANY.tradeName}. Todos os direitos reservados.</div>
+          <div className="text-sm text-gray-500">© {year} {COMPANY.tradeName}. Todos os direitos reservados.</div>
         </div>
       </footer>
 
       {lb && (
-        <div className="fixed inset-0 z-50 bg-black/75 flex items-center justify-center p-4" onClick={closeLightbox}>
+        <div className="fixed inset-0 z-50 bg-black/75 flex items-center justify-center p-4" onClick={()=>closeLightbox()}>
           <div className="max-w-5xl w-full" onClick={(e)=>e.stopPropagation()}>
             <div className="flex items-center justify-between text-white mb-2">
               <div className="text-lg font-semibold">{lb.meta?.title}</div>
-              <button className="rounded-lg px-3 py-1 bg-white/10 hover:bg-white/20" onClick={closeLightbox}>Fechar (Esc)</button>
+              <button className="rounded-lg px-3 py-1 bg-white/10 hover:bg-white/20" onClick={()=>closeLightbox()}>Fechar (Esc)</button>
             </div>
             <div className="text-sm text-gray-300 mb-3">{lb.meta?.client} • {lb.meta?.city}</div>
             <div className="rounded-xl overflow-hidden bg-black relative">
               <img src={lb.images[lb.index]} alt={lb.meta?.title} className="w-full h-auto object-contain max-h-[80vh]" />
-              <button onClick={prev} className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full px-3 py-2 bg-white/15 text-white hover:bg-white/25">⟵</button>
-              <button onClick={next} className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full px-3 py-2 bg-white/15 text-white hover:bg-white/25">⟶</button>
+              <button onClick={()=>setLb((s)=>({...s, index:(s.index-1+s.images.length)%s.images.length}))} className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full px-3 py-2 bg-white/15 text-white hover:bg-white/25">⟵</button>
+              <button onClick={()=>setLb((s)=>({...s, index:(s.index+1)%s.images.length}))} className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full px-3 py-2 bg-white/15 text-white hover:bg-white/25">⟶</button>
             </div>
             <div className="mt-3 text-xs text-gray-400">Use ← → para navegar • Esc para fechar</div>
           </div>
