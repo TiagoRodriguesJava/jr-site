@@ -249,17 +249,23 @@ export default function SiteJR() {
             </div>
           </div>
           <nav className="hidden md:flex items-center">
-            <NavLink href="#inicio">Início</NavLink>
-            <NavLink href="#servicos">Serviços</NavLink>
-            <NavLink href="#setores">Setores</NavLink>
-            <NavLink href="#projetos">Projetos</NavLink>
-            <NavLink href="#clientes">Clientes</NavLink>
-            <NavLink href="#contato">Contato</NavLink>
-            </nav>
-            <div className="ml-4">
-              <Button href={COMPANY.ctaPrimary.href} variant="light" onMouseEnter={(e)=>{ e.currentTarget.style.color='#FACC15' }} onMouseLeave={(e)=>{ e.currentTarget.style.color='' }}>Solicitar orçamento</Button>
-            </div>
-          </nav>
+  <NavLink href="#inicio">Início</NavLink>
+  <NavLink href="#servicos">Serviços</NavLink>
+  <NavLink href="#setores">Setores</NavLink>
+  <NavLink href="#projetos">Projetos</NavLink>
+  <NavLink href="#clientes">Clientes</NavLink>
+  <NavLink href="#contato">Contato</NavLink>
+  <div className="ml-4">
+    <Button
+      href={COMPANY.ctaPrimary.href}
+      variant="light"
+      onMouseEnter={(e)=>{ e.currentTarget.style.color='#FACC15' }}
+      onMouseLeave={(e)=>{ e.currentTarget.style.color='' }}
+    >
+      Solicitar orçamento
+    </Button>
+  </div>
+</nav>
           <button className="md:hidden p-2" onClick={() => setMenuOpen(!menuOpen)} aria-label="Abrir menu"><Icon name="Menu" className="text-white" /></button>
         </div>
         {menuOpen && (
