@@ -285,7 +285,7 @@ export default function SiteJR() {
       <section id="inicio" className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-100" />
         <div className="max-w-6xl mx-auto px-6 pt-16 pb-16 md:pt-24 md:pb-24 relative">
-            <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-6 md:mb-8">\n    Soluções completas em manutenção, fabricação e montagem industrial — tubulações, estruturas e combate a incêndio.\n  </h1>\n<div className="grid md:grid-cols-2 gap-12 items-start">
+            <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-6 md:mb-8">    Soluções completas em manutenção, fabricação e montagem industrial — tubulações, estruturas e combate a incêndio.  </h1><div className="grid md:grid-cols-2 gap-12 items-start">
             <div>
               
               <p className="mt-4 text-lg text-gray-600">{COMPANY.about}</p>
