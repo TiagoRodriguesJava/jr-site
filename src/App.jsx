@@ -255,7 +255,6 @@ export default function SiteJR() {
             <NavLink href="#projetos">Projetos</NavLink>
             <NavLink href="#clientes">Clientes</NavLink>
             <NavLink href="#contato">Contato</NavLink>
-            </nav>
             <div className="ml-4">
               <Button href={COMPANY.ctaPrimary.href} variant="light" onMouseEnter={(e)=>{ e.currentTarget.style.color='#FACC15' }} onMouseLeave={(e)=>{ e.currentTarget.style.color='' }}>Solicitar orçamento</Button>
             </div>
