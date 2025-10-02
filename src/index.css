@@ -2,3 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 html, body, #root { height: 100%; }
+
+/* Marquee de clientes */
+.marquee{
+  overflow:hidden;
+  mask-image:linear-gradient(to right,transparent,black 8%,black 92%,transparent);
+}
+.marquee-track{
+  display:flex;
+  gap:2rem;
+  width:max-content;
+  animation:scroll 25s linear infinite;
+}
+.marquee:hover .marquee-track{ animation-play-state:paused; }
+
+@keyframes scroll{
+  from{ transform:translateX(0); }
+  to  { transform:translateX(-50%); }
+}

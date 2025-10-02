@@ -249,23 +249,17 @@ export default function SiteJR() {
             </div>
           </div>
           <nav className="hidden md:flex items-center">
-  <NavLink href="#inicio">Início</NavLink>
-  <NavLink href="#servicos">Serviços</NavLink>
-  <NavLink href="#setores">Setores</NavLink>
-  <NavLink href="#projetos">Projetos</NavLink>
-  <NavLink href="#clientes">Clientes</NavLink>
-  <NavLink href="#contato">Contato</NavLink>
-  <div className="ml-4">
-    <Button
-      href={COMPANY.ctaPrimary.href}
-      variant="light"
-      onMouseEnter={(e)=>{ e.currentTarget.style.color='#FACC15' }}
-      onMouseLeave={(e)=>{ e.currentTarget.style.color='' }}
-    >
-      Solicitar orçamento
-    </Button>
-  </div>
-</nav>
+            <NavLink href="#inicio">Início</NavLink>
+            <NavLink href="#servicos">Serviços</NavLink>
+            <NavLink href="#setores">Setores</NavLink>
+            <NavLink href="#projetos">Projetos</NavLink>
+            <NavLink href="#clientes">Clientes</NavLink>
+            <NavLink href="#contato">Contato</NavLink>
+            </nav>
+            <div className="ml-4">
+              <Button href={COMPANY.ctaPrimary.href} variant="light" onMouseEnter={(e)=>{ e.currentTarget.style.color='#FACC15' }} onMouseLeave={(e)=>{ e.currentTarget.style.color='' }}>Solicitar orçamento</Button>
+            </div>
+          </nav>
           <button className="md:hidden p-2" onClick={() => setMenuOpen(!menuOpen)} aria-label="Abrir menu"><Icon name="Menu" className="text-white" /></button>
         </div>
         {menuOpen && (
@@ -285,9 +279,9 @@ export default function SiteJR() {
       <section id="inicio" className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-100" />
         <div className="max-w-6xl mx-auto px-6 pt-16 pb-16 md:pt-24 md:pb-24 relative">
-            <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-6 md:mb-8">    Soluções completas em manutenção, fabricação e montagem industrial — tubulações, estruturas e combate a incêndio.  </h1><div className="grid md:grid-cols-2 gap-12 items-start">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              
+              <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">{COMPANY.tagline}</h1>
               <p className="mt-4 text-lg text-gray-600">{COMPANY.about}</p>
               <div className="mt-6 flex gap-3">
                 <Button href={COMPANY.ctaPrimary.href} variant="primary" onMouseEnter={(e)=>{ e.currentTarget.style.color='#FACC15' }} onMouseLeave={(e)=>{ e.currentTarget.style.color='' }}>{COMPANY.ctaPrimary.label}</Button>
@@ -334,17 +328,23 @@ export default function SiteJR() {
       </Section>
 
       <Section id="clientes" title="Clientes" kicker="Confiança construída em campo">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-          {COMPANY.clients.map((c) => (
-            <Card key={c.name} className="p-6 h-28 md:h-32 flex items-center justify-center text-center">
-              <div className="w-full h-full flex items-center justify-center">
-                <img src={c.logo} alt={c.name} className="max-h-full w-auto object-contain" onError={(e)=>{ e.currentTarget.style.display='none'; e.currentTarget.nextSibling.style.display='block'; }} />
-                <span className="hidden text-sm font-semibold">{c.name}</span>
-              </div>
-            </Card>
-          ))}
+      
+  <div className="marquee py-6">
+    <div className="marquee-track">
+      {[...COMPANY.clients, ...COMPANY.clients].map((c, idx) => (
+        <div key={idx} className="h-16 w-40 flex items-center justify-center opacity-80 hover:opacity-100 transition">
+          <img
+            src={c.logo}
+            alt={c.name}
+            className="max-h-14 w-auto object-contain"
+            onError={(e)=>{ e.currentTarget.style.display='none'; e.currentTarget.nextSibling.style.display='block'; }}
+          />
+          <span className="hidden text-sm font-semibold">{c.name}</span>
         </div>
-      </Section>
+      ))}
+    </div>
+  </div>
+</Section>
 
       <Section id="contato" title="Contato" kicker="Fale com a JR">
         <div className="grid md:grid-cols-2 gap-8">
