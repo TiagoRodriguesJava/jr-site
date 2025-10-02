@@ -278,9 +278,11 @@ export default function SiteJR() {
       <section id="inicio" className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-100" />
         <div className="max-w-6xl mx-auto px-6 pt-16 pb-16 md:pt-24 md:pb-24 relative">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          
+          <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-6 md:mb-8">{COMPANY.tagline}</h1>
+<div className="grid md:grid-cols-2 gap-12 items-start">
             <div>
-              <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">{COMPANY.tagline}</h1>
+              
               <p className="mt-4 text-lg text-gray-600">{COMPANY.about}</p>
               <div className="mt-6 flex gap-3">
                 <Button href={COMPANY.ctaPrimary.href} variant="primary" onMouseEnter={(e)=>{ e.currentTarget.style.color='#FACC15' }} onMouseLeave={(e)=>{ e.currentTarget.style.color='' }}>{COMPANY.ctaPrimary.label}</Button>
